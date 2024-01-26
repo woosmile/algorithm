@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "list": "cpp"
+        "list": "cpp",
+        "stack": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "utility": "cpp",
+        "ios": "cpp"
     }
 }
