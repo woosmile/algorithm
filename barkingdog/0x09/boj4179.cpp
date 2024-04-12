@@ -65,7 +65,7 @@ int main(void)
             int nx = cur.X + dx[i];
             int ny = cur.Y + dy[i];
 
-            if (nx < 0 || ny < 0 || nx >= col || ny >= row)
+            if (nx < 0 || ny < 0 || nx >= row || ny >= col)
                 continue ;
             if (dist_f[nx][ny] >= 0 || board[nx][ny] == '#')
                 continue ;
@@ -74,14 +74,30 @@ int main(void)
         }
     }
 
-    for (int i = 0 ; i < row; i++)
+    while (!j_q.empty())
     {
-        for (int j = 0; j < col; j++)
+        pair<int, int> cur = j_q.front();
+        j_q.pop();
+        for (int i = 0; i < 4; i++)
         {
-            cout << dist_f[i][j] << " ";
+            int nx = cur.X + dx[i];
+            int ny = cur.Y + dy[i];
+
+            if (nx < 0 || ny < 0 || nx >= row || ny >= col)
+            {
+                cout << dist_j[cur.X][cur.Y] + 1;
+                return (0);
+            }
+            if (dist_j[nx][ny] >= 0 || board[nx][ny] == '#')
+                continue ;
+            //불이 전파되지 않았다면 dist_f의 초기값 -1에서 변하지 않으므로 -1이 아닐 때의 조건을 추가해야 전파된 불이 없는 곳의 좌표를 j_q에 넣을 수 있음 
+            if (dist_f[nx][ny] != -1 && dist_f[nx][ny] <= dist_j[cur.X][cur.Y] + 1)
+                continue ;
+            dist_j[nx][ny] = dist_j[cur.X][cur.Y] + 1;
+            j_q.push({nx, ny});
         }
-        cout << "\n";
     }
 
+    cout << "IMPOSSIBLE";
     return (0);
 }
