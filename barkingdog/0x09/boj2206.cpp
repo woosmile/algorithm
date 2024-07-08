@@ -48,12 +48,16 @@ int main(void)
             int ny = y + dy[i];
             if (nx < 0 || nx >= x_input || ny < 0 || ny >= y_input)  // 범위 체크
                 continue ;
-            if (field[ny][nx] == '0' && dist[ny][nx][broken] == 0)  // 빈 공간이고 dist 에서 방문하지 않은(-1) 곳이라면 현재 거리에 +1을 한 다음 큐에 넣음
+            if (field[ny][nx] == '0' && dist[ny][nx][broken] == 0)  // 빈 공간이고 dist를 통해 아직 방문하지 않은(0) 곳이라면 현재 거리에 +1을 한 다음 큐에 넣음
             {
                 dist[ny][nx][broken] = dist[y][x][broken] + 1;
                 q.push({ny, nx, broken});
             }
-            if (broken == 0 && field[ny][nx] == '1' && dist[ny][nx][1] == 0)  // 
+            // 벽을 딱 한 번만 부술 수 있으므로 이에 대한 체크는 3차원 배열의 마지막 인덱스인 broken 변수로 체크함
+            // BFS를 진행하면서 최초로 만난 벽의 위치를 이전에 방문한 적이 있었는지 dist를 통해 체크함
+            // 조건을 만족한다면 그 위치를 큐에 넣고 다음 BFS를 이어감
+            // BFS로 찾는 거리는 무조건 최단거리임 (BFS의 중요한 특징)
+            if (broken == 0 && field[ny][nx] == '1' && dist[ny][nx][1] == 0)
             {
                 dist[ny][nx][1] = dist[y][x][broken] + 1;
                 q.push({ny, nx, 1});
