@@ -9,7 +9,7 @@ bool inused3[40];  // 좌측 상단과 우측 하단을 잇는 대각선(x - y +
 int n;
 int cnt;
 
-void func(int depth)  // depth는 x를 의미함 (코드 흐름이 y축 기준으로 내려가는 느낌이 아니라 x축 기준으로 오른쪽으로 가는 흐름)
+void func(int depth)  // depth는 x를 의미함
 {
     if (depth == n)  // depth가 n과 같아졌다는 것은 모든 퀸을 다 놓았음을 의미함
     {
