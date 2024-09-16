@@ -15,47 +15,42 @@ int logic[30][30];
 
 int ans;
 
-void move(int dir)  // 0 상, 1 하, 2 좌, 3 우
+void rotate()
 {
-    if (dir == 0)
+    int temp[30][30];
+
+    for (int y = 0; y < n; y++)
+        for (int x = 0; x < n; x++)
+            temp[y][x] = board[y][x];
+
+    for (int y = 0; y < n; y++)
+        for (int x = 0; x < n; x++)
+            logic[y][x] = temp[n - 1 - x][y];
+}
+
+void tilt(int dir)
+{
+    while(dir--)
+        rotate();
+    
+    for (int y = 0; y < n; y++)
     {
-        for (int y = 0; y < n; y++)
+        int tilted[30] = {};
+        int idx = 0;
+        for (int x = 0; x < n; x++)
         {
-            for (int x = 0; x < n; x++)
-            {
-                
-            }
+            if (logic[y][x] == 0)
+                continue ;
+
+            if (tilted[idx] == 0)
+                tilted[idx] = logic[y][x];
+            else if (tilted[idx] == logic[y][x])
+                tilted[idx++] = tilted[idx] * 2;
+            else
+                tilted[++idx] = logic[y][x];
         }
-    }
-    else if (dir == 1)
-    {
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                
-            }
-        }
-    }
-    else if (dir == 2)
-    {
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                
-            }
-        }
-    }
-    else if (dir == 3)
-    {
-        for (int y = 0; y < n; y++)
-        {
-            for (int x = 0; x < n; x++)
-            {
-                
-            }
-        }
+        for (int x = 0; x < n; x++)
+            logic[y][x] = tilted[x];
     }
 }
 
@@ -86,6 +81,12 @@ int main(void)
         for (int x = 0; x < n; x++)
             cin >> board[y][x];
     }
+    
+    for (int y = 0; y < n; y++)
+    {
+        for (int x = 0; x < n; x++)
+            logic[y][x] = board[y][x];
+    }
 
     for (int total = 0; total < (1 << (2 * 5)); total++)
     {
@@ -100,11 +101,10 @@ int main(void)
         {
             int dir = brute % 4;
             brute = brute / 4;
-            move(dir);
+            tilt(dir);
         }
         check_val();
     }
-
     cout << ans;
 
     return (0);
