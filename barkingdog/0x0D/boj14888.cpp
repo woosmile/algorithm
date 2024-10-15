@@ -46,7 +46,7 @@ int main() {
     }
 
     func(num[0], 1);
-    cout << mn << '\n' << mx;
+    cout << mx << '\n' << mn;
         
     return 0;
 }
